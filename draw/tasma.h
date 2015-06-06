@@ -10,7 +10,7 @@
 namespace proj
 {
 
-	const float SPEED = 3.0;
+	const float SPEED = 7.0;
 
 	void init();
 	void draw(HDC);
@@ -73,6 +73,7 @@ namespace proj
 		Selektor(float len, float x, float y, float dx, float dy);
 		virtual float getDx();
 		virtual float getDy();
+		virtual void draw(HDC);
 		virtual void add(Figura* fig);
 		virtual void remove(Figura* fig);
 	};

@@ -14,17 +14,17 @@ namespace proj
 	Figura* kwadrat;
 	int value = 0;
 	std::vector<Tasma*> tasmy;
+	std::list<Figura*> figury;
 
 	void init()
 	{
 		//tasmaL = new Tasma(500, 50, 200, 1, 0);
 		//tasmaR = new Tasma(400, 500, 400, 1, -0.6 );
 		//tasmaS = new Tasma(700, 800, 300, 1, 0);
-		tasmy.push_back( new Tasma(500, 50, 200, 1, 0) );
-		tasmy.push_back(new Selektor(400, 500, 400, 1, -0.6));
+		tasmy.push_back( new Tasma(600, 0, 200, 1, 0) );
+		tasmy.push_back(new Selektor(250, 560, 320, 1, -0.3));
 		tasmy.push_back(new Tasma(700, 800, 300, 1, 0));
-		kolo = new Figura(100, 100, 0);
-		kwadrat = new Figura(600, 150, 1);
+
 
 	}
 
@@ -38,20 +38,36 @@ namespace proj
 			(*it)->draw(hdc);
 		}
 
-		kolo->draw(hdc);
-		kwadrat->draw(hdc);
+		for (std::list<Figura*>::iterator it = figury.begin(); it != figury.end(); it++)
+		{
+			(*it)->draw(hdc);
+		}
 	}
 
 	void update()
 	{
 		value++;
-		if (value % 100 == 0)
+		if (value % 15 == 0)
 		{
-			Tasma.figury.push_back (new Figura(100, 100, 0));
-			Tasma.figury.push_back( new Figura(600, 150, 1));
+			int rodzaj = rand() % 2;
+			Figura* fig = new Figura(50, 50, rodzaj);
+			figury.push_back(fig);
 		}
-		kolo->update();
-		kwadrat->update();
+
+		std::list< std::list<Figura*>::iterator > toremove;
+
+		for (std::list<Figura*>::iterator it = figury.begin(); it != figury.end(); it++)
+		{
+			Figura* fig = *it;
+			fig->update();
+			if (fig->getY() > 1000)
+				toremove.push_back(it);
+		}
+
+		for (std::list< std::list< Figura* >::iterator >::iterator it = toremove.begin(); it != toremove.end(); it++)
+		{
+			figury.erase(*it);
+		}
 	}
 	
 	void quit()
@@ -187,6 +203,13 @@ namespace proj
 		
 	}
 
+	void Selektor::draw(HDC hdc)
+	{
+		Graphics graphics(hdc);
+		Pen      pen(Color(255, 255*reverse, 0, 255));
+		graphics.DrawLine(&pen, x, y, x + dx*len, y + dy*len);
+	}
+
 	void Selektor::add(Figura* fig)
 	{
 		if (fig->getType() == Figura::SQUARE)
@@ -199,7 +222,7 @@ namespace proj
 
 	void Selektor::remove(Figura* fig) // jezeli nie ma juz zadnch kwadratow to reverse = false;
 	{
-		if ((fig->getType() != Figura::SQUARE) )
+		if (reverse && fig->getType() == Figura::SQUARE)
 			reverse = false;
 	}
 
@@ -243,6 +266,11 @@ namespace proj
 	}
 
 	float Tasma::getY()
+	{
+		return y;
+	}
+
+	float Figura::getY()
 	{
 		return y;
 	}
