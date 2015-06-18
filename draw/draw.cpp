@@ -1,10 +1,6 @@
-// draw.cpp : Defines the entry point for the application.
-//
-
 #include "stdafx.h"
 #include "draw.h"
 #include "tasma.h"
-
 
 #define MAX_LOADSTRING 100
 #define TMR_1 1
@@ -13,8 +9,6 @@
 HINSTANCE hInst;								// current instance
 TCHAR szTitle[MAX_LOADSTRING];					// The title bar text
 TCHAR szWindowClass[MAX_LOADSTRING];			// the main window class name
-
-INT value;
 
 // Forward declarations of functions included in this code module:
 ATOM				MyRegisterClass(HINSTANCE hInstance);
@@ -42,12 +36,10 @@ int APIENTRY _tWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPTSTR lpCm
 	UNREFERENCED_PARAMETER(hPrevInstance);
 	UNREFERENCED_PARAMETER(lpCmdLine);
 	
- 	// TODO: Place code here.
 	proj::init();
+
 	MSG msg;
 	HACCEL hAccelTable;
-
-	value= 10;
 
 	GdiplusStartupInput gdiplusStartupInput;
 	ULONG_PTR           gdiplusToken;
@@ -163,8 +155,6 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 	int wmId, wmEvent;
 	PAINTSTRUCT ps;
 	HDC hdc;
-	//OnCreate(hWnd,wParam,lParam);
-	//OnTimer(hWnd,wParam,lParam);
 
 	switch (message)
 	{

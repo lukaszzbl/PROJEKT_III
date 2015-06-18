@@ -1,10 +1,7 @@
-
-
 #ifndef __proj_H
 #define __proj_H
 
 #include "stdafx.h"
-
 #include <list>
 
 namespace proj

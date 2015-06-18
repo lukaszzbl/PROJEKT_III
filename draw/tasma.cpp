@@ -18,21 +18,13 @@ namespace proj
 
 	void init()
 	{
-		//tasmaL = new Tasma(500, 50, 200, 1, 0);
-		//tasmaR = new Tasma(400, 500, 400, 1, -0.6 );
-		//tasmaS = new Tasma(700, 800, 300, 1, 0);
-		tasmy.push_back( new Tasma(600, 0, 200, 1, 0) );
+		tasmy.push_back(new Tasma(600, 0, 200, 1, 0) );
 		tasmy.push_back(new Selektor(250, 560, 320, 1, -0.3));
 		tasmy.push_back(new Tasma(700, 800, 300, 1, 0));
-
-
 	}
 
 	void draw(HDC hdc)
 	{
-		//tasmaL->draw(hdc);
-		//tasmaR->draw(hdc);
-		//tasmaS->draw(hdc);
 		for (std::vector<Tasma*>::iterator it = tasmy.begin(); it != tasmy.end(); it++)
 		{
 			(*it)->draw(hdc);
@@ -60,7 +52,7 @@ namespace proj
 		{
 			Figura* fig = *it;
 			fig->update();
-			if (fig->getY() > 1000)
+			if (fig->getY() > 1000)				//Jesli wyjdzie poza zakres
 				toremove.push_back(it);
 		}
 
@@ -75,8 +67,6 @@ namespace proj
 		delete tasmaL;
 		delete tasmaR;
 		delete tasmaS;
-		delete kolo;
-		delete kwadrat;
 	}
 
 	Tasma::Tasma()
@@ -128,8 +118,7 @@ namespace proj
 
 	bool Tasma::collides(float tx, float ty)
 	{
-		// y z funkcji liniowej dla tasmy
-		float fy = dy / dx * (tx - x) + y;
+		float fy = dy / dx * (tx - x) + y;   // y=f(x) dla tasmy SELEKTOR
 			if (tx > x && tx < (x + dx*len) &&
 				ty > fy && ty < (fy + 1*SPEED + 1) )
 				return true;
@@ -148,7 +137,7 @@ namespace proj
 	{
 		float nextX, nextY;
 		Tasma* starepod = pod;
-		pod = NULL;//collides(x, y);
+		pod = NULL;
 
 		for (std::vector<Tasma*>::iterator it = tasmy.begin(); it != tasmy.end(); it++)
 		{
@@ -197,7 +186,7 @@ namespace proj
 		}
 		else
 		{
-			SolidBrush      solidbrush(Color(255, 0, 0, 255));
+			SolidBrush      solidbrush(Color(255, 255, 0, 0));
 			graphics.FillRectangle(&solidbrush, int(x)-15, int(y)-30, 30, 30);
 		}
 		
@@ -206,7 +195,7 @@ namespace proj
 	void Selektor::draw(HDC hdc)
 	{
 		Graphics graphics(hdc);
-		Pen      pen(Color(255, 255*reverse, 0, 255));
+		Pen      pen(Color(255, 0, 0, 255));
 		graphics.DrawLine(&pen, x, y, x + dx*len, y + dy*len);
 	}
 
@@ -220,7 +209,7 @@ namespace proj
 			reverse = false;
 	}
 
-	void Selektor::remove(Figura* fig) // jezeli nie ma juz zadnch kwadratow to reverse = false;
+	void Selektor::remove(Figura* fig) 
 	{
 		if (reverse && fig->getType() == Figura::SQUARE)
 			reverse = false;
